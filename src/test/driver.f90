@@ -32,8 +32,11 @@ implicit none
     ! read  (92,rec=1) w
     ! close (92)
 
-    T = (/ (I+273, I = 20,1,-1) /)  ! lapse rate 1K/km
-    w = sin( (/ (I, I = 1,40,2) /) / 10. )
+
+    allocate (T(nz),w(nz))
+
+    T = (/ (I+273, I = nz,1,-1) /)  ! lapse rate 1K/km
+    w = sin( (/ (I, I = 1,nz*2,2) /) / 10. )
 
     print*, "========= Setup variables ========="
     print*, "Num of z-grid   : ", nz
@@ -56,12 +59,14 @@ implicit none
     open(unit = 30, file = "output.txt")
     ! open(unit = 30, file = "output.dat", form='unformatted', &
     !      status = "unknown", access='direct', recl=4*nz) 
-    do i = 1, 100
+    do i = 1, nt
         write(30,*) Tout(i,:)
     end do
     close(30)
 
     ! deallocate storage
+    if (allocated(T)) deallocate(T)
+    if (allocated(w)) deallocate(w)
     if (allocated(z_full)) deallocate(z_full)
     if (allocated(z_half)) deallocate(z_half)
     if (allocated(Tout))   deallocate(Tout)
