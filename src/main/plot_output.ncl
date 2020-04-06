@@ -32,7 +32,7 @@ res@tmYLMinorOutwardLengthF = 0.0
 cres = res
 cres@cnFillOn = True
 cres@cnLevelSelectionMode = "ExplicitLevels"
-cres@cnLevels = ispan(270,295,1)
+; cres@cnLevels = ispan(270,295,1) ; T
 
 cres@lbOrientation 	= "vertical"
 cres@pmLabelBarHeightF           = 0.6
@@ -41,7 +41,8 @@ cres@pmLabelBarOrthogonalPosF    = 0.05
 cres@pmLabelBarParallelPosF      = 0.5
 cres@lbLabelStride = 2
 cres@lbLabelFontHeightF = 0.016
-; plt = gsn_csm_contour(wks, Tout, cres)
+plt = gsn_csm_contour(wks, Tout, cres)
+exit
 
 ; make gif plot
 wks = gsn_open_wks("pdf", "for_gif")
@@ -54,5 +55,4 @@ lres@trXMaxF = 20.
 do i = 0, nt-1
     plt = gsn_csm_xy(wks, Tout(:,i), z, lres)
 end do    
-
 
