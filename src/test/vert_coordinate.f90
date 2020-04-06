@@ -3,18 +3,18 @@ contains
     subroutine compute_vert_coord(ztop, zbottom, nz, grid_dz, z_full, z_half)
     implicit none
     integer, intent(in) :: nz                ! Num of z_full
-    real,    intent(in) :: ztop, zbottom     ! [km]
+    real,    intent(in) :: ztop, zbottom     ! [m]
     character(len=*), intent(in)       :: grid_dz
     real, intent(out), dimension(nz)   :: z_full
     real, intent(out), dimension(nz+1) :: z_half
     integer :: k
-    real, parameter :: dzr = 0.9
+    real    :: dzr = 1.05
     real, dimension(nz) :: dz   ! delta z for z_half
 
+    z_half(1) = zbottom
     select case (grid_dz)
         case ("constant_grid")
-            dz = (ztop - zbottom) * 1000. / nz
-            z_half(1) = zbottom * 1000.
+            dz = (ztop - zbottom) / nz
             do k = 1, nz
                 z_half(k+1) = z_half(k) + dz(k)
             end do
